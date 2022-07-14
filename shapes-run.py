@@ -19,8 +19,8 @@ parser.add_argument("--camera", type=str, default="0", help="index of the MIPI C
 parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 parser.add_argument('--headless', action='store_true', default=(), help="run without display")
-parser.add_argument("confidence-file", type=str, default="/home/clarew/shapes_project/confidence.txt", help="path to confidence txt file that will be created (must put name, ex: confidence.txt)")
-parser.add_argument("output-file", type=str, default="/home/clarew/shapes_project/output.txt", help="path to output txt file that will be created (must put name, ex: output.txt)")
+parser.add_argument("--confidence-file", type=str, default="confidence", help="path to confidence txt file that will be created")
+parser.add_argument("--output-file", type=str, default="confidence", help="path to output txt file that will be created")
 
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
@@ -43,9 +43,19 @@ confidence-path = args.confidence-file
 output-path = args.output-file
 present_label = "New Session"
 past_label = "placeholder"
-a = open(confidence-path,'w')
-b = open(output-path, 'w')
 
+if os.path.isdir(confidence-path):
+    a = open(confidence-path + '/confidence.txt','w')
+else:
+    os.system("mkdir shapes-confidence")
+    a = open('shapes-confidence/confidence.txt', 'w')
+	
+if os.path.isdir(output-path):
+    b = open(output-path + '/output.txt', 'w')
+else:
+    os.system("mkdir shapes-output")
+    b = open('shapes-output/output.txt', 'w')
+	
 # process frames until the user exits
 while True:
     # capture the next image
