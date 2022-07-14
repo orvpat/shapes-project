@@ -55,20 +55,24 @@ while True:
 
     #set present_label to current class_desc with strong enough confidence
     if confidence > 0.5:
+	a.write("High Confidence: " + str(confidence)*100 + "%")
         if class_desc == "circle":
             present_label = "circle"
+	    a.write(" with shape identified as circle \n")
         elif class_desc == "square":
             present_label = "square"
+	    a.write(" with shape identified as square \n")
         elif class_desc == "star":
             present_label = "star"
+	    a.write(" with shape identified as star \n")
         elif class_desc == "triangle":
             present_label = "triangle"
+	    a.write(" with shape identified as triangle \n")
         else:
-            present_label = past_label
-            a.write("High Confidence: " + str(confidence)+ "\n")
+            present_label = past_label           
     else:
         present_label = past_label
-        a.write("Low Confidence: " + str(confidence) + "\n")
+        a.write("Low Confidence: " + str(confidence)*100 + "% \n")
 
     # overlay the result on the image	
     font.OverlayText(img, img.width, img.height, "{:05.2f}% {:s}".format(confidence * 100, class_desc), 5, 5, font.White, font.Gray40)
