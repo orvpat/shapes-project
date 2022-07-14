@@ -19,6 +19,8 @@ parser.add_argument("--camera", type=str, default="0", help="index of the MIPI C
 parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 parser.add_argument('--headless', action='store_true', default=(), help="run without display")
+parser.add_argument("--confidence-file", type=str, default="/home/clarew/shapes_project/confidence.txt", help="path to confidence txt file that will be created (must put name, ex: confidence.txt)")
+parser.add_argument("--output-file", type=str, default="/home/clarew/shapes_project/output.txt", help="path to output txt file that will be created (must put name, ex: output.txt)")
 
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
@@ -37,10 +39,12 @@ net = jetson.inference.imageNet(opt.network, sys.argv)
 input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
 output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
 font = jetson.utils.cudaFont()
+confidence-path = args.confidence-file
+output-path = args.output-file
 present_label = "New Session"
 past_label = "placeholder"
-a = open('/home/clarew/shapes_project/confidence.txt', 'w')
-b = open('/home/clarew/shapes_project/output.txt','w')
+a = open(confidence-path,'w')
+b = open(output-path, 'w')
 
 # process frames until the user exits
 while True:
